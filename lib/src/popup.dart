@@ -15,6 +15,7 @@ class CustomPopup extends StatelessWidget {
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
   final VoidCallback? onBeforePopup;
+  final Size? arrowSize;
 
   const CustomPopup({
     super.key,
@@ -30,6 +31,7 @@ class CustomPopup extends StatelessWidget {
     this.contentRadius,
     this.contentDecoration,
     this.onBeforePopup,
+    this.arrowSize,
   });
 
   void _show(BuildContext context) {
@@ -51,6 +53,7 @@ class CustomPopup extends StatelessWidget {
         contentRadius: contentRadius,
         contentDecoration: contentDecoration,
         child: content,
+        arrowSize: arrowSize,
       ),
     );
   }
@@ -78,6 +81,7 @@ class _PopupContent extends StatelessWidget {
   final EdgeInsets contentPadding;
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
+  final Size? arrowSize;
 
   const _PopupContent({
     Key? key,
@@ -92,6 +96,7 @@ class _PopupContent extends StatelessWidget {
     this.contentRadius,
     required this.contentPadding,
     this.contentDecoration,
+    this.arrowSize,
   }) : super(key: key);
 
   @override
@@ -127,7 +132,7 @@ class _PopupContent extends StatelessWidget {
             key: arrowKey,
             quarterTurns: arrowDirection == _ArrowDirection.top ? 2 : 4,
             child: CustomPaint(
-              size: showArrow ? const Size(16, 8) : Size.zero,
+              size: showArrow ? (arrowSize ?? const Size(16, 8)) : Size.zero,
               painter: _TrianglePainter(color: arrowColor ?? Colors.white),
             ),
           ),
@@ -188,6 +193,7 @@ class _PopupRoute extends PopupRoute<void> {
   final EdgeInsets contentPadding;
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
+  final Size? arrowSize;
 
   double _maxHeight = _viewportRect.height;
   _ArrowDirection _arrowDirection = _ArrowDirection.top;
@@ -212,6 +218,7 @@ class _PopupRoute extends PopupRoute<void> {
     required this.contentPadding,
     this.contentRadius,
     this.contentDecoration,
+    this.arrowSize,
   }) : super(
           settings: settings,
           filter: filter,
@@ -339,6 +346,7 @@ class _PopupRoute extends PopupRoute<void> {
       contentRadius: contentRadius,
       contentDecoration: contentDecoration,
       child: child,
+      arrowSize: arrowSize,
     );
     if (!animation.isCompleted) {
       child = FadeTransition(
